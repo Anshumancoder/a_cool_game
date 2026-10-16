@@ -268,26 +268,44 @@ function initLevel() {
         portal = null
 
         platforms = [
-
-            { x: 0, y: 380, w: 1050, h: 70 },
-            { x: 300, y: 280, w:180, h: 20 },
-            { x: 600, y: 200, w:160, h: 20 },
-            { x: 1150, y: 380, w: 1300, h: 70 },
-            { x: 1400, y: 280, w: 200, h: 20 },
-            { x: 1800, y: 210, w: 200, h: 20 },
-            { x: 2550, y: 380, w: 2450, h: 70 },
-            { x: 2900, y: 270, w: 220, h: 20 },
-            { x: 3400, y: 190, w: 220, h: 20 }
-
+            { x: 0, y: 380, w: 850, h: 70 },
+            { x: 270, y: 290, w: 170, h: 20 },
+            { x: 530, y: 210, w: 160, h: 20 },
+            { x: 950, y: 380, w: 1100, h: 70 },
+            { x: 1080, y: 300, w: 170, h: 20 },
+            { x: 1430, y: 230, w: 180, h: 20 },
+            { x: 1740, y: 290, w: 170, h: 20 },
+            { x: 2150, y: 380, w: 1050, h: 70 },
+            { x: 2280, y: 300, w: 170, h: 20 },
+            { x: 2580, y: 220, w: 180, h: 20 },
+            { x: 2900, y: 285, w: 180, h: 20 },
+            { x: 3300, y: 380, w: 1700, h: 70 },
+            { x: 3430, y: 300, w: 180, h: 20 },
+            { x: 3740, y: 220, w: 180, h: 20 },
+            { x: 4040, y: 290, w: 180, h: 20 },
+            { x: 4310, y: 250, w: 190, h: 20 }
         ]
 
 
         enemies = [
+            { type: 'shadow_orc', x: 480, y: 348, w: 24, h: 32, vx: -1.5, vy: 0, hp: 3, maxHp: 3, shootTimer: 0 },
+            { type: 'cavern_gargoyle', x: 690, y: 145, w: 28, h: 28, vx: -1, vy: 0, hp: 2, maxHp: 2, shootTimer: 0, startY: 145 },
+            { type: 'cavern_joe', x: 990, y: 348, w: 28, h: 28, vx: 1.5, vy: 0, hp: 2, maxHp: 2, shootTimer: 0 },
+            { type: 'archer', x: 1110, y: 268, w: 22, h: 32, vx: 0, vy: 0, hp: 3, maxHp: 3, shootTimer: 70 },
+            { type: 'shadow_orc', x: 1480, y: 198, w: 24, h: 32, vx: -1.5, vy: 0, hp: 3, maxHp: 3, shootTimer: 0 },
+            { type: 'cavern_gargoyle', x: 1840, y: 150, w: 28, h: 28, vx: -1, vy: 0, hp: 2, maxHp: 2, shootTimer: 0, startY: 150 },
+            { type: 'cavern_joe', x: 2250, y: 348, w: 28, h: 28, vx: 1.5, vy: 0, hp: 2, maxHp: 2, shootTimer: 0 },
+            { type: 'archer', x: 2620, y: 188, w: 22, h: 32, vx: 0, vy: 0, hp: 3, maxHp: 3, shootTimer: 60 },
+            { type: 'shadow_orc', x: 2940, y: 253, w: 24, h: 32, vx: -1.5, vy: 0, hp: 3, maxHp: 3, shootTimer: 0 },
+            { type: 'cavern_gargoyle', x: 3530, y: 145, w: 28, h: 28, vx: -1, vy: 0, hp: 2, maxHp: 2, shootTimer: 0, startY: 145 },
+            { type: 'archer', x: 3800, y: 188, w: 22, h: 32, vx: 0, vy: 0, hp: 3, maxHp: 3, shootTimer: 55 }
+        ]
 
-            { type: 'shadow_orc', x: 500, y: 340, w: 24, h: 32, vx: -2, vy: 0, hp: 4, maxHp: 4, shootTimer: 0 },
-            { type: 'cavern_joe', x: 900, y: 340, w: 28, h: 28, vx: 1.5, vy: 0, hp: 2, maxHp: 2, shootTimer: 0 },
-            { type: 'shadow_orc', x: 1500, y: 240, w: 24, h: 32, vx: -2, vy: 9, hp: 4, maxHp: 4, shootTimer: 0 },
-            { type: 'cavern_gargoyle', x: 2000, y: 120, w: 28, h: 28, vx: -1.5, vy: 0, hp: 2, maxHp: 2, shootTimer: 0, startY: 120 }
+        pods = [
+            { x: 560, y: 172, w: 24, h: 24, type: 'SPREAD', floatOffset: 0 },
+            { x: 1470, y: 192, w: 24, h: 24, type: 'FIRE', floatOffset: 2 },
+            { x: 2630, y: 182, w: 24, h: 24, type: 'LIGHTNING', floatOffset: 4 },
+            { x: 3760, y: 182, w: 24, h: 24, type: 'FIRE', floatOffset: 1 }
         ]
     }
 
@@ -505,13 +523,20 @@ function firePlayer2Weapon() {
 
 function spawnBoss() {
 
+    if (currentLevel === 2) {
+        spawnBoss2()
+        return
+    }
+
     boss = {
+
         x: levelWidth - 500,
         y: 180,
         w: 90,
         h: 110,
         hp: 40,
         maxHp: 40,
+        name: 'John',
         state: 'IDLE',
         timer: 0,
         vy: 0
@@ -519,6 +544,32 @@ function spawnBoss() {
 
     document.getElementById('bossHud').classList.remove('hidden')
     document.getElementById('bossHealthBar').style.width = '100%'
+    document.getElementById('bossName').innerText = boss.name
+    document.getElementById('bossHealthText').innerText = '100%'
+
+}
+
+
+function spawnBoss2() {
+
+    boss = {
+        x: levelWidth - 500,
+        y: 150,
+        baseY: 150,
+        w: 110,
+        h: 130,
+        hp: 75,
+        maxHp: 75,
+        name: 'Jeremy',
+        state: 'CHARGING',
+        timer: 0,
+        vy: 0
+    }
+
+    document.getElementById('bossHud').classList.remove('hidden')
+    document.getElementById('bossHealthBar').style.width = '100%'
+    document.getElementById('bossName').innerText = boss.name
+    document.getElementById('bossHealthText').innerText = '100%'
 
 }
 
@@ -680,6 +731,7 @@ function update() {
 
             let hpPercent = Math.max(0, (boss.hp / boss.maxHp) * 100)
             document.getElementById('bossHealthBar').style.width = hpPercent + '%'
+            document.getElementById('bossHealthText').innerText = Math.ceil(hpPercent) + '%'
 
 
             if (boss.hp <= 0) {
@@ -814,31 +866,55 @@ function update() {
 
 
     if (boss) {
+        boss.timer++
+        if (currentLevel === 2) {
+            boss.y = boss.baseY + Math.sin(boss.timer * 0.035) * 22
+        }
 
-        boss.timer++;
-        if (boss.timer % 120 === 0) {
+        const attackInterval = currentLevel === 2
+            ? (boss.hp <= boss.maxHp / 2 ? 78 : 108)
+            : 120
+        if (boss.timer % attackInterval === 0) {
             const targetPlayer = coOpMode && p2lives > 0 &&
                 (lives <= 0 || Math.abs(boss.x - player2.x) < Math.abs(boss.x - player.x))
                 ? player2
                 : player
-            let dx = (targetPlayer.x + targetPlayer.w/2) - (boss.x + boss.w/2)
-            let dy = (targetPlayer.y + targetPlayer.h/2) - (boss.y + boss.h/2)
-            let dist = Math.sqrt(dx*dx + dy*dy)
+            const dx = targetPlayer.x + targetPlayer.w / 2 - (boss.x + boss.w / 2)
+            const dy = targetPlayer.y + targetPlayer.h / 2 - (boss.y + boss.h / 2)
 
-            for (let a = -0.3; a <= 0.3; a += 0.3) {
+            if (currentLevel === 2) {
+                const aimAngle = Math.atan2(dy, dx)
+                const enraged = boss.hp <= boss.maxHp / 2
+                const spread = enraged ? 0.62 : 0.48
+                const shotCount = enraged ? 5 : 3
+                const speed = enraged ? 5.4 : 4.6
 
-                enemyBullets.push({
-                    x: boss.x + boss.w/2,
-                    y: boss.y + boss.h/2,
-                    vx: (dx / dist) * 5 + a * 2,
-                    vy: (dy / dist) * 5,
-                    color: '#ef4444'
-                })
-
+                for (let shot = 0; shot < shotCount; shot++) {
+                    const offset = shotCount === 1
+                        ? 0
+                        : -spread + (spread * 2 * shot) / (shotCount - 1)
+                    const angle = aimAngle + offset
+                    enemyBullets.push({
+                        x: boss.x + boss.w / 2,
+                        y: boss.y + boss.h / 2,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        color: enraged ? '#fb7185' : '#f97316'
+                    })
+                }
+            } else {
+                const dist = Math.hypot(dx, dy) || 1
+                for (let offset = -0.3; offset <= 0.3; offset += 0.3) {
+                    enemyBullets.push({
+                        x: boss.x + boss.w / 2,
+                        y: boss.y + boss.h / 2,
+                        vx: (dx / dist) * 5 + offset * 2,
+                        vy: (dy / dist) * 5,
+                        color: '#ef4444'
+                    })
+                }
             }
-
         }
-
 
 
         if (lives > 0 && player.x + player.w > boss.x && player.x < boss.x + boss.w &&
@@ -945,60 +1021,62 @@ function draw() {
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
 
-    ctx.fillStyle = '#11131f'
-    let castleX = (CANVAS_WIDTH * 0.7) - (cameraX * 0.1) % 500
-    ctx.fillRect(castleX, 200, 80, 200)
-    ctx.fillRect(castleX - 30, 250, 40, 150)
-    ctx.fillRect(castleX + 70, 230, 40, 170)
-    ctx.beginPath()
-    ctx.moveTo(castleX - 35, 250); ctx.lineTo(castleX - 10, 200); ctx.lineTo(castleX + 15, 250)
-    ctx.moveTo(castleX - 5, 200); ctx.lineTo(castleX + 40, 140); ctx.lineTo(castleX + 85, 200)
-    ctx.moveTo(castleX + 65, 230); ctx.lineTo(castleX + 90, 180); ctx.lineTo(castleX + 115, 230)
-    ctx.fill()
-
-
-    
-    ctx.fillStyle = '#22253b'
-    ctx.beginPath()
-    ctx.moveTo(0, CANVAS_HEIGHT)
-    
-    for (let i = 0; i <= CANVAS_WIDTH + 100; i += 100) {
-        let archX = i - (cameraX * 0.2) % 100
-        let archY = 300 + Math.sin(i + 1) * 35
-        ctx.lineTo(archX, archY)
-    }
-
-    ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT)
-    ctx.fill()
-
-    
-    ctx.fillStyle = '#1b3b2b'
-    ctx.beginPath()
-    ctx.moveTo(0, CANVAS_HEIGHT)
-
-
-    for (let i = 0; i <= CANVAS_WIDTH + 80; i += 80) {
-
-        let hillX = i - (cameraX * 0.4) % 80
-        let hillY = 370 + Math.sin(i * 0.05) * 20
-        ctx.lineTo(hillX, hillY)
-        
-    }
-
-    ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT);
-    ctx.fill();
-
     if (currentLevel === 2) {
         const caveGrad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
-        caveGrad.addColorStop(0, '#09090b')
-        caveGrad.addColorStop(0.7, '#18181b')
-        caveGrad.addColorStop(1, '#27272a')
+        caveGrad.addColorStop(0, '#090718')
+        caveGrad.addColorStop(0.65, '#171126')
+        caveGrad.addColorStop(1, '#29172f')
         ctx.fillStyle = caveGrad
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
-        ctx.fillStyle = '#7f1d1d'
-        ctx.fillRect(200 - (cameraX * 0.1) % 800, 250, 20, 100)
-        ctx.fillRect(200 - (cameraX * 0.1) % 8000, 200, 15, 150)
+        for (let i = 0; i < 8; i++) {
+            const crystalX = ((i * 137 - cameraX * 0.16) % 1000 + 1000) % 1000
+            const crystalY = 150 + (i % 3) * 48
+            ctx.fillStyle = i % 2 === 0 ? 'rgba(168, 85, 247, 0.18)' : 'rgba(249, 115, 22, 0.14)'
+            ctx.beginPath()
+            ctx.moveTo(crystalX, crystalY)
+            ctx.lineTo(crystalX + 12, crystalY + 30)
+            ctx.lineTo(crystalX + 2, crystalY + 66)
+            ctx.lineTo(crystalX - 10, crystalY + 30)
+            ctx.closePath()
+            ctx.fill()
+        }
+
+        ctx.fillStyle = 'rgba(124, 58, 237, 0.12)'
+        ctx.fillRect(0, 370, CANVAS_WIDTH, 80)
+    } else {
+        ctx.fillStyle = '#11131f'
+        let castleX = (CANVAS_WIDTH * 0.7) - (cameraX * 0.1) % 500
+        ctx.fillRect(castleX, 200, 80, 200)
+        ctx.fillRect(castleX - 30, 250, 40, 150)
+        ctx.fillRect(castleX + 70, 230, 40, 170)
+        ctx.beginPath()
+        ctx.moveTo(castleX - 35, 250); ctx.lineTo(castleX - 10, 200); ctx.lineTo(castleX + 15, 250)
+        ctx.moveTo(castleX - 5, 200); ctx.lineTo(castleX + 40, 140); ctx.lineTo(castleX + 85, 200)
+        ctx.moveTo(castleX + 65, 230); ctx.lineTo(castleX + 90, 180); ctx.lineTo(castleX + 115, 230)
+        ctx.fill()
+
+        ctx.fillStyle = '#22253b'
+        ctx.beginPath()
+        ctx.moveTo(0, CANVAS_HEIGHT)
+        for (let i = 0; i <= CANVAS_WIDTH + 100; i += 100) {
+            const archX = i - (cameraX * 0.2) % 100
+            const archY = 300 + Math.sin(i + 1) * 35
+            ctx.lineTo(archX, archY)
+        }
+        ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT)
+        ctx.fill()
+
+        ctx.fillStyle = '#1b3b2b'
+        ctx.beginPath()
+        ctx.moveTo(0, CANVAS_HEIGHT)
+        for (let i = 0; i <= CANVAS_WIDTH + 80; i += 80) {
+            const hillX = i - (cameraX * 0.4) % 80
+            const hillY = 370 + Math.sin(i * 0.05) * 20
+            ctx.lineTo(hillX, hillY)
+        }
+        ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT)
+        ctx.fill()
     }
 
     
@@ -1008,16 +1086,16 @@ function draw() {
         let drawX = p.x - cameraX
         if (drawX + p.w < -50 || drawX > CANVAS_WIDTH + 50) return
 
-        ctx.fillStyle = '#2d241e'
+        ctx.fillStyle = currentLevel === 2 ? '#292333' : '#2d241e'
         ctx.fillRect(drawX, p.y, p.w, p.h)
-        ctx.strokeStyle = '#43362d'
+        ctx.strokeStyle = currentLevel === 2 ? '#6d4c8d' : '#43362d'
         ctx.lineWidth = 2
         ctx.strokeRect(drawX, p.y, p.w, p.h)
 
 
-        ctx.fillStyle = '#38a169'
+        ctx.fillStyle = currentLevel === 2 ? '#c084fc' : '#38a169'
         ctx.fillRect(drawX - 2, p.y - 2, p.w + 4, 6)
-        ctx.fillStyle = '#2f855a'
+        ctx.fillStyle = currentLevel === 2 ? '#6b21a8' : '#2f855a'
 
         for (let ix = drawX + 4; ix < drawX + p.w - 4; ix += 12) {
             ctx.fillRect(ix, p.y + 4, 4, 5);
@@ -1169,30 +1247,66 @@ function draw() {
 
     
     if (boss) {
-
         let drawX = boss.x - cameraX
         ctx.save()
         ctx.translate(drawX + boss.w / 2, boss.y + boss.h / 2)
 
-        ctx.fillStyle = '#450a0a'
-        ctx.fillRect(-boss.w / 2, -boss.h / 2, boss.w, boss.h)
-        ctx.fillStyle = '#dc2626'
-        ctx.beginPath()
-        ctx.moveTo(-25, -boss.h / 2); ctx.lineTo(-45, -boss.h / 2 - 30); ctx.lineTo(-10, -boss.h / 2 + 10)
-        ctx.moveTo(25, -boss.h / 2); ctx.lineTo(45, -boss.h / 2 - 30); ctx.lineTo(10, -boss.h / 2 + 10)
-        ctx.fill()
-        ctx.fillStyle = '#facc15'
-        ctx.fillRect(-20, -20, 10, 10)
-        ctx.fillRect(10, -20, 10, 10)
+        if (currentLevel === 2) {
+            const enraged = boss.hp <= boss.maxHp / 2
+            const armorColor = enraged ? '#3f1022' : '#18181b'
+            const glowColor = enraged ? '#fb7185' : '#c084fc'
+            ctx.shadowColor = glowColor
+            ctx.shadowBlur = 18
+            ctx.fillStyle = armorColor
+            ctx.fillRect(-boss.w / 2, -boss.h / 2 + 12, boss.w, boss.h - 12)
+            ctx.shadowBlur = 0
+
+            ctx.fillStyle = '#27202f'
+            ctx.fillRect(-boss.w / 2 - 12, -18, 28, 52)
+            ctx.fillRect(boss.w / 2 - 16, -18, 28, 52)
+            ctx.fillStyle = glowColor
+            ctx.fillRect(-boss.w / 2 - 12, -18, 28, 5)
+            ctx.fillRect(boss.w / 2 - 16, -18, 28, 5)
+
+            ctx.fillStyle = '#581c87'
+            ctx.beginPath()
+            ctx.moveTo(-40, -boss.h / 2 + 16)
+            ctx.lineTo(-58, -boss.h / 2 - 30)
+            ctx.lineTo(-19, -boss.h / 2 + 13)
+            ctx.moveTo(40, -boss.h / 2 + 16)
+            ctx.lineTo(58, -boss.h / 2 - 30)
+            ctx.lineTo(19, -boss.h / 2 + 13)
+            ctx.fill()
+
+            ctx.fillStyle = '#09090b'
+            ctx.fillRect(-32, -30, 64, 47)
+            ctx.fillStyle = glowColor
+            ctx.fillRect(-24, -20, 14, 7)
+            ctx.fillRect(10, -20, 14, 7)
+            ctx.fillStyle = '#facc15'
+            ctx.fillRect(-5, -5, 10, 12)
+            ctx.strokeStyle = enraged ? '#fb7185' : '#7e22ce'
+            ctx.lineWidth = 3
+            ctx.strokeRect(-boss.w / 2 + 8, -boss.h / 2 + 18, boss.w - 16, boss.h - 28)
+        } else {
+            ctx.fillStyle = '#450a0a'
+            ctx.fillRect(-boss.w / 2, -boss.h / 2, boss.w, boss.h)
+            ctx.fillStyle = '#dc2626'
+            ctx.beginPath()
+            ctx.moveTo(-25, -boss.h / 2); ctx.lineTo(-45, -boss.h / 2 - 30); ctx.lineTo(-10, -boss.h / 2 + 10)
+            ctx.moveTo(25, -boss.h / 2); ctx.lineTo(45, -boss.h / 2 - 30); ctx.lineTo(10, -boss.h / 2 + 10)
+            ctx.fill()
+            ctx.fillStyle = '#facc15'
+            ctx.fillRect(-20, -20, 10, 10)
+            ctx.fillRect(10, -20, 10, 10)
+        }
 
         ctx.restore()
-
     }
 
 
 
     bullets.forEach(b => {
-
         let drawX = b.x - cameraX
         ctx.fillStyle = b.color
         ctx.beginPath()
@@ -1232,6 +1346,7 @@ function draw() {
         ctx.fillRect(drawPortalX + 8, portal.y + 8, portal.w - 16, portal.h - 16)
 
     }
+
 
 }
 
