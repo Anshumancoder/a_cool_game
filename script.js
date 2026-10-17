@@ -8,6 +8,8 @@ const CANVAS_HEIGHT = 450
 canvas.width = CANVAS_WIDTH
 canvas.height = CANVAS_HEIGHT
 
+
+
 // audio of game
 let audioCtx = null
 
@@ -21,11 +23,13 @@ function initAudio() {
 
 
 
+
 function playSound(type) {
 
     if (!audioCtx || !soundEnabled) return
 
     try {
+
         const osc = audioCtx.createOscillator()
         const gain = audioCtx.createGain()
 
@@ -72,14 +76,15 @@ function playSound(type) {
             osc.stop(now + 0.08)
         }
 
-    } catch (e) {}
+    } catch (e) { }
 
 }
 
 
+
 let gameState = 'START'
 let score = 0
-let lives = 3
+let lives = 5
 let cameraX = 0
 let levelWidth = 3500
 let keys = {}
@@ -100,8 +105,8 @@ const player = {
     jumpPower: -11,
     grounded: false,
     facing: 'right',
-    aimAngle: 0, 
-    weapon: 'NORMAL', 
+    aimAngle: 0,
+    weapon: 'NORMAL',
     invulnerable: 0,
     shootCooldown: 0
 
@@ -126,7 +131,8 @@ const player2 = {
 
 }
 
-let p2lives = 3
+
+let p2lives = 5
 
 
 // entities
@@ -147,6 +153,7 @@ window.addEventListener('keydown', e => {
     keys[e.key] = true
     initAudio()
 });
+
 
 window.addEventListener('keyup', e => {
     keys[e.key] = false;
@@ -178,9 +185,11 @@ function initLevel() {
 
     if (currentLevel === 1) {
         score = 0
-        lives = 3
-        p2lives = 3
+        lives = 5
+        p2lives = 5
     }
+
+
     cameraX = 0
     bullets = []
     enemyBullets = []
@@ -258,6 +267,7 @@ function initLevel() {
     ]
 
 
+
     if (currentLevel === 1) {
 
         levelWidth = 3500
@@ -266,6 +276,7 @@ function initLevel() {
     } else if (currentLevel === 2) {
         levelWidth = 5000
         portal = null
+
 
         platforms = [
             { x: 0, y: 380, w: 850, h: 70 },
@@ -301,13 +312,104 @@ function initLevel() {
             { type: 'archer', x: 3800, y: 188, w: 22, h: 32, vx: 0, vy: 0, hp: 3, maxHp: 3, shootTimer: 55 }
         ]
 
+
         pods = [
             { x: 560, y: 172, w: 24, h: 24, type: 'SPREAD', floatOffset: 0 },
             { x: 1470, y: 192, w: 24, h: 24, type: 'FIRE', floatOffset: 2 },
             { x: 2630, y: 182, w: 24, h: 24, type: 'LIGHTNING', floatOffset: 4 },
             { x: 3760, y: 182, w: 24, h: 24, type: 'FIRE', floatOffset: 1 }
         ]
+
     }
+
+
+
+    if (currentLevel === 3) {
+
+        levelWidth = 6000
+        portal = null
+
+
+        platforms = [
+            { x: 0, y: 380, w: 850, h: 70 },
+            { x: 240, y: 285, w: 150, h: 20 },
+            { x: 520, y: 205, w: 150, h: 20 },
+            { x: 1000, y: 380, w: 850, h: 70 },
+            { x: 1120, y: 290, w: 160, h: 20 },
+            { x: 1410, y: 215, w: 170, h: 20 },
+            { x: 1680, y: 300, w: 150, h: 20 },
+            { x: 2000, y: 380, w: 1000, h: 70 },
+            { x: 2150, y: 300, w: 170, h: 20 },
+            { x: 2450, y: 220, w: 180, h: 20 },
+            { x: 2750, y: 290, w: 170, h: 20 },
+            { x: 3150, y: 380, w: 900, h: 70 },
+            { x: 3300, y: 300, w: 170, h: 20 },
+            { x: 3590, y: 220, w: 180, h: 20 },
+            { x: 3870, y: 285, w: 160, h: 20 },
+            { x: 4200, y: 380, w: 1800, h: 70 },
+            { x: 4380, y: 300, w: 180, h: 20 },
+            { x: 4680, y: 225, w: 200, h: 20 }
+        ]
+
+
+        enemies = [
+            { type: 'lava_bob', x: 620, y: 348, w: 28, h: 32, vx: -1.8, vy: 0, hp: 3, maxHp: 3, patrolMin: 500, patrolMax: 800 },
+            { type: 'fire_boy', x: 1160, y: 145, w: 32, h: 32, vx: 1.2, vy: 0, hp: 2, maxHp: 2, shootTimer: 70, startY: 145, patrolMin: 1050, patrolMax: 1800 },
+            { type: 'lava_bob', x: 1580, y: 348, w: 28, h: 32, vx: 1.8, vy: 0, hp: 3, maxHp: 3, patrolMin: 1200, patrolMax: 1800 },
+            { type: 'fire_boy', x: 2460, y: 130, w: 32, h: 32, vx: -1.3, vy: 0, hp: 2, maxHp: 2, shootTimer: 55, startY: 130, patrolMin: 2050, patrolMax: 2950 },
+            { type: 'lava_bob', x: 2820, y: 348, w: 28, h: 32, vx: -1.8, vy: 0, hp: 3, maxHp: 3, patrolMin: 2200, patrolMax: 2950 },
+            { type: 'fire_boy', x: 3690, y: 140, w: 32, h: 32, vx: 1.2, vy: 0, hp: 2, maxHp: 2, shootTimer: 80, startY: 140, patrolMin: 3200, patrolMax: 4050 },
+            { type: 'lava_bob', x: 4000, y: 348, w: 28, h: 32, vx: -1.8, vy: 0, hp: 3, maxHp: 3, patrolMin: 3300, patrolMax: 4050 }
+        ]
+
+
+        pods = [
+            { x: 570, y: 160, w: 24, h: 24, type: 'SPREAD', floatOffset: 0 },
+            { x: 1460, y: 175, w: 24, h: 24, type: 'FIRE', floatOffset: 2 },
+            { x: 2510, y: 175, w: 24, h: 24, type: 'LIGHTNING', floatOffset: 4 },
+            { x: 3650, y: 175, w: 24, h: 24, type: 'FIRE', floatOffset: 1 }
+        ]
+
+    }
+
+}
+
+
+
+
+function transitionToLevel(nextLevel) {
+
+    const transition = document.getElementById('worldTransition')
+    const worldNumber = String(nextLevel).padStart(2, '0')
+    const worldName = nextLevel === 2 ? 'The Shadow Caves' : 'The Darkness'
+
+    gameState = 'TRANSITIONING'
+    document.getElementById('worldTransitionNumber').innerText = `WORLD ${worldNumber}`
+    document.getElementById('worldTransitionName').innerText = worldName
+    transition.setAttribute('aria-hidden', 'false')
+    transition.classList.add('active')
+
+
+    setTimeout(() => {
+
+        if (gameState !== 'TRANSITIONING' || currentLevel !== nextLevel - 1) return
+
+        currentLevel = nextLevel
+        initLevel()
+        updateHUD()
+
+        setTimeout(() => {
+            if (gameState !== 'TRANSITIONING' || currentLevel !== nextLevel) return
+
+            transition.classList.remove('active')
+            transition.setAttribute('aria-hidden', 'true')
+            setTimeout(() => {
+                if (gameState === 'TRANSITIONING' && currentLevel === nextLevel) {
+                    gameState = 'PLAYING'
+                }
+            }, 550)
+        }, 700)
+    }, 550)
 
 }
 
@@ -319,6 +421,7 @@ function startGame() {
     currentLevel = 1
     initLevel()
     gameState = 'PLAYING'
+
     document.getElementById('mainMenu').classList.add('hidden')
     document.getElementById('gameOverMenu').classList.add('hidden')
     document.getElementById('victoryMenu').classList.add('hidden')
@@ -338,7 +441,9 @@ function restartGame() {
 }
 
 
+
 function togglePause() {
+
     const pauseMenu = document.getElementById('pauseMenu')
 
     if (gameState === 'PLAYING') {
@@ -348,6 +453,7 @@ function togglePause() {
         gameState = 'PLAYING'
         pauseMenu.classList.add('hidden')
     }
+
 }
 
 
@@ -365,7 +471,9 @@ function updateHUD() {
 
 function addExplosion(x, y, color, count = 12) {
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0;
+        i < count;
+        i++) {
 
         const angle = Math.random() * Math.PI * 2
         const speed = Math.random() * 4 + 1
@@ -392,7 +500,6 @@ function addExplosion(x, y, color, count = 12) {
 function fireWeapon() {
 
     if (player.shootCooldown > 0) return
-
     playSound('shoot')
 
     let angle = 0
@@ -401,6 +508,7 @@ function fireWeapon() {
     const aimDown = coOpMode ? keys['s'] || keys['S'] : keys['ArrowDown'] || keys['s'] || keys['S']
     const aimRight = coOpMode ? keys['d'] || keys['D'] : keys['ArrowRight'] || keys['d'] || keys['D']
     const aimLeft = coOpMode ? keys['a'] || keys['A'] : keys['ArrowLeft'] || keys['a'] || keys['A']
+
 
     if (aimUp) {
 
@@ -435,7 +543,7 @@ function fireWeapon() {
             x: startX, y: startY,
             vx: Math.cos(angle) * 10, vy: Math.sin(angle) * 10,
             type: 'NORMAL', damage: 1, color: '#fef08a'
-            
+
         })
         player.shootCooldown = 12
 
@@ -491,6 +599,7 @@ function firePlayer2Weapon() {
     const startY = player2.y + player2.h / 2
 
     const fire = (shotAngle, speed, damage, color) => {
+
         bullets.push({
             x: startX,
             y: startY,
@@ -499,22 +608,31 @@ function firePlayer2Weapon() {
             type: player2.weapon,
             damage,
             color
+
         })
     }
 
     if (player2.weapon === 'SPREAD') {
+        
         const spreadOffsets = [-0.25, 0, 0.25]
         spreadOffsets.forEach(offset => fire(angle + offset, 9, 1, '#38bdf8'))
         player2.shootCooldown = 16
+
     } else if (player2.weapon === 'LIGHTNING') {
+
         fire(angle, 14, 2, '#e0e7ff')
         player2.shootCooldown = 8
+
     } else if (player2.weapon === 'FIRE') {
+
         fire(angle, 7, 1.5, '#f97316')
         player2.shootCooldown = 10
+
     } else {
+
         fire(angle, 10, 1, '#38bdf8')
         player2.shootCooldown = 12
+
     }
 
 }
@@ -525,6 +643,11 @@ function spawnBoss() {
 
     if (currentLevel === 2) {
         spawnBoss2()
+        return
+    }
+
+    if (currentLevel === 3) {
+        spawnBoss3()
         return
     }
 
@@ -553,6 +676,7 @@ function spawnBoss() {
 function spawnBoss2() {
 
     boss = {
+
         x: levelWidth - 500,
         y: 150,
         baseY: 150,
@@ -564,6 +688,7 @@ function spawnBoss2() {
         state: 'CHARGING',
         timer: 0,
         vy: 0
+
     }
 
     document.getElementById('bossHud').classList.remove('hidden')
@@ -572,6 +697,78 @@ function spawnBoss2() {
     document.getElementById('bossHealthText').innerText = '100%'
 
 }
+
+
+function spawnBoss3() {
+
+    boss = {
+
+        x: levelWidth - 650,
+        baseX: levelWidth - 650,
+        y: 170,
+        baseY: 170,
+        w: 140,
+        h: 170,
+        hp: 110,
+        maxHp: 110,
+        name: 'Kashyap, the Ash King',
+        timer: 0,
+        attackPhase: 1
+
+    }
+
+    document.getElementById('bossHud').classList.remove('hidden')
+    document.getElementById('bossHealthBar').style.width = '100%'
+    document.getElementById('bossName').innerText = boss.name
+    document.getElementById('bossHealthText').innerText = '100%'
+}
+
+
+function updateWorld3BossAI() {
+
+    if (!boss || currentLevel !== 3) return
+    boss.attackPhase = boss.hp <= boss.maxHp / 2 ? 2 : 1
+    boss.x = boss.baseX + Math.sin(boss.timer * 0.018) * 28
+    boss.y = boss.baseY + Math.sin(boss.timer * 0.035) * 24
+
+    const attackInterval = boss.attackPhase === 2 ? 62 : 92
+
+    if (boss.timer % attackInterval === 0) {
+
+        const targetPlayer = coOpMode && p2lives > 0 &&
+            (lives <= 0 || Math.abs(boss.x - player2.x) < Math.abs(boss.x - player.x))
+            ? player2
+            : player
+        const dx = targetPlayer.x + targetPlayer.w / 2 - (boss.x + boss.w / 2)
+        const dy = targetPlayer.y + targetPlayer.h / 2 - (boss.y + boss.h / 2)
+        const aimAngle = Math.atan2(dy, dx)
+        const enraged = boss.attackPhase === 2
+        const shotCount = enraged ? 7 : 5
+        const spread = enraged ? 0.72 : 0.5
+        const speed = enraged ? 5.6 : 4.8
+
+        for (let shot = 0;
+            shot < shotCount;
+            shot++) {
+
+            const offset = -spread + (spread * 2 * shot) / (shotCount - 1)
+            const angle = aimAngle + offset
+            enemyBullets.push({
+
+                x: boss.x + boss.w / 2,
+                y: boss.y + boss.h / 2,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                color: enraged ? '#fef08a' : '#fb923c'
+
+            })
+
+        }
+        playSound('shoot')
+
+    }
+}
+
 
 
 function update() {
@@ -586,21 +783,26 @@ function update() {
         if (rightKey) {
             player.vx = player.speed
             player.facing = 'right'
+
         } else if (leftKey) {
             player.vx = -player.speed
             player.facing = 'left'
+
         } else {
             player.vx = 0
         }
+
 
         if (jumpKey && player.grounded) {
             player.vy = player.jumpPower
             player.grounded = false
         }
 
-        if (keys['j'] || keys['J'] || keys['x'] || keys['X'] || keys['Control'] || keys['c'] || keys['C'] ) {
+
+        if (keys['j'] || keys['J'] || keys['x'] || keys['X'] || keys['Control'] || keys['c'] || keys['C']) {
             fireWeapon()
         }
+
 
         if (player.shootCooldown > 0) player.shootCooldown--
         if (player.invulnerable > 0) player.invulnerable--
@@ -614,64 +816,89 @@ function update() {
 
         player.grounded = false
         platforms.forEach(p => {
+
             if (player.x + player.w > p.x && player.x < p.x + p.w &&
                 player.y + player.h >= p.y && player.y + player.h <= p.y + p.h + player.vy) {
+
                 if (player.vy >= 0) {
+
                     player.grounded = true
                     player.vy = 0
                     player.y = p.y - player.h
+
                 }
+
             }
+
+
         })
 
+
         if (player.y > CANVAS_HEIGHT + 50) hurtPlayer()
+
     }
 
+
+
     if (coOpMode && p2lives > 0) {
+
         if (keys['ArrowRight']) {
+
             player2.vx = player2.speed
             player2.facing = 'right'
+
         } else if (keys['ArrowLeft']) {
             player2.vx = -player2.speed
             player2.facing = 'left'
+
         } else {
             player2.vx = 0
         }
+
 
         if (keys['ArrowUp'] && player2.grounded) {
             player2.vy = player2.jumpPower
             player2.grounded = false
         }
 
+
         if (keys['k'] || keys['K']) firePlayer2Weapon()
         if (player2.shootCooldown > 0) player2.shootCooldown--
         if (player2.invulnerable > 0) player2.invulnerable--
 
+        
         player2.vy += 0.55
         player2.x += player2.vx
         player2.y += player2.vy
         if (player2.x < 0) player2.x = 0
         if (player2.x > levelWidth - player2.w) player2.x = levelWidth - player2.w
 
+
         player2.grounded = false
         platforms.forEach(p => {
+
             if (player2.x + player2.w > p.x && player2.x < p.x + p.w &&
                 player2.y + player2.h >= p.y && player2.y + player2.h <= p.y + p.h + player2.vy) {
+
                 if (player2.vy >= 0) {
                     player2.grounded = true
                     player2.vy = 0
                     player2.y = p.y - player2.h
                 }
+
             }
+
         })
+
 
         if (player2.y > CANVAS_HEIGHT + 50) hurtPlayer2()
     }
-    
+
 
     const cameraTargetX = coOpMode && lives > 0 && p2lives > 0
         ? (player.x + player2.x) / 2
         : (lives > 0 ? player.x : player2.x)
+
     if (cameraTargetX - cameraX > CANVAS_WIDTH * 0.5 && cameraX < levelWidth - CANVAS_WIDTH) {
         cameraX = cameraTargetX - CANVAS_WIDTH * 0.5
 
@@ -682,6 +909,7 @@ function update() {
     const furthestPlayerX = coOpMode && p2lives > 0
         ? Math.max(lives > 0 ? player.x : 0, player2.x)
         : player.x
+
     if (furthestPlayerX > levelWidth - 900 && !boss && !bossDefeated) {
         spawnBoss()
     }
@@ -699,7 +927,7 @@ function update() {
             return
         }
 
-        
+
         enemies.forEach((e, eIdx) => {
             if (b.x > e.x && b.x < e.x + e.w && b.y > e.y && b.y < e.y + e.h) {
 
@@ -710,7 +938,7 @@ function update() {
 
 
                 if (e.hp <= 0) {
-                    addExplosion(e.x + e.w/2, e.y + e.h/2, '#ef4444', 15)
+                    addExplosion(e.x + e.w / 2, e.y + e.h / 2, '#ef4444', 15)
                     enemies.splice(eIdx, 1)
                     score += 100
                     playSound('explosion')
@@ -736,7 +964,7 @@ function update() {
 
             if (boss.hp <= 0) {
 
-                addExplosion(boss.x + boss.w/2, boss.y + boss.h/2, '#facc15', 40)
+                addExplosion(boss.x + boss.w / 2, boss.y + boss.h / 2, '#facc15', 40)
                 playSound('explosion')
                 boss = null
                 bossDefeated = true
@@ -746,14 +974,23 @@ function update() {
                 if (currentLevel === 1) {
                     if (portal) portal.active = true
                     document.getElementById('bossHud').classList.add('hidden')
+
+                } else if (currentLevel === 2) {
+                    document.getElementById('bossHud').classList.add('hidden')
+                    transitionToLevel(3)
+
                 } else {
+                    document.getElementById('bossHud').classList.add('hidden')
                     setTimeout(() => {
                         gameState = 'VICTORY'
                         document.getElementById('victoryMenu').classList.remove('hidden')
                     }, 1000)
+
                 }
 
             }
+
+
         }
     })
 
@@ -769,11 +1006,13 @@ function update() {
             return
         }
 
-        
+
         if (lives > 0 && eb.x > player.x && eb.x < player.x + player.w &&
             eb.y > player.y && eb.y < player.y + player.h) {
             enemyBullets.splice(idx, 1)
             hurtPlayer()
+
+
         } else if (coOpMode && p2lives > 0 &&
             eb.x > player2.x && eb.x < player2.x + player2.w &&
             eb.y > player2.y && eb.y < player2.y + player2.h) {
@@ -784,24 +1023,33 @@ function update() {
     })
 
 
+
     
+
     enemies.forEach(e => {
+
         const targetPlayer = coOpMode && p2lives > 0 &&
             (lives <= 0 || Math.abs(e.x - player2.x) < Math.abs(e.x - player.x))
             ? player2
             : player
 
-        if (e.type === 'orc' || e.type === 'shadow_orc' || e.type === 'cavern_joe') {
+        if (e.type === 'orc' || e.type === 'shadow_orc' || e.type === 'cavern_joe' || e.type === 'lava_bob') {
             e.x += e.vx
 
-            if (e.x < 100 || e.x > levelWidth - 100) e.vx *= -1
+            const patrolMin = e.patrolMin === undefined ? 100 : e.patrolMin
+            const patrolMax = e.patrolMax === undefined ? levelWidth - 100 : e.patrolMax
+            if (e.x < patrolMin || e.x + e.w > patrolMax) {
+                e.vx *= -1
+                e.x = Math.max(patrolMin, Math.min(e.x, patrolMax - e.w))
+            }
+
         } else if (e.type === 'gargoyle' || e.type === 'cavern_gargoyle') {
             e.x += e.vx
             e.y = e.startY + Math.sin(Date.now() * 0.005) * 30
 
             if (Math.abs(e.x - targetPlayer.x) < 400 && Math.random() < 0.008) {
                 enemyBullets.push({
-                    x: e.x + e.w/2, y: e.y + e.h,
+                    x: e.x + e.w / 2, y: e.y + e.h,
                     vx: 0, vy: 4, color: '#dc2626'
                 })
             }
@@ -813,20 +1061,50 @@ function update() {
                 let dir = targetPlayer.x < e.x ? -1 : 1
 
                 enemyBullets.push({
+
                     x: e.x + (dir === 1 ? e.w : 0), y: e.y + 10,
                     vx: dir * 5, vy: -1, color: '#f59e0b'
+
                 })
+
                 e.shootTimer = 90
 
             }
 
+        } else if (e.type === 'fire_boy') {
+
+            e.x += e.vx
+            e.y = e.startY + Math.sin(Date.now() * 0.003 + e.startY) * 24
+            if (e.x < e.patrolMin || e.x + e.w > e.patrolMax) e.vx *= -1
+            e.shootTimer--
+
+            if (e.shootTimer <= 0 && Math.abs(e.x - targetPlayer.x) < 500) {
+
+                const dx = targetPlayer.x + targetPlayer.w / 2 - (e.x + e.w / 2)
+                const dy = targetPlayer.y + targetPlayer.h / 2 - (e.y + e.h / 2)
+                const distance = Math.hypot(dx, dy) || 1
+                enemyBullets.push({
+
+                    x: e.x + e.w / 2,
+                    y: e.y + e.h / 2,
+                    vx: dx / distance * 4,
+                    vy: dy / distance * 4,
+                    color: '#fb923c'
+
+                })
+                e.shootTimer = 110
+            }
+
+
         }
 
-        
+
         if (lives > 0 && player.x + player.w > e.x && player.x < e.x + e.w &&
             player.y + player.h > e.y && player.y < e.y + e.h) {
             hurtPlayer()
         }
+
+
         if (coOpMode && p2lives > 0 &&
             player2.x + player2.w > e.x && player2.x < e.x + e.w &&
             player2.y + player2.h > e.y && player2.y < e.y + e.h) {
@@ -866,68 +1144,80 @@ function update() {
 
 
     if (boss) {
-        boss.timer++
-        if (currentLevel === 2) {
-            boss.y = boss.baseY + Math.sin(boss.timer * 0.035) * 22
-        }
 
-        const attackInterval = currentLevel === 2
-            ? (boss.hp <= boss.maxHp / 2 ? 78 : 108)
-            : 120
-        if (boss.timer % attackInterval === 0) {
-            const targetPlayer = coOpMode && p2lives > 0 &&
-                (lives <= 0 || Math.abs(boss.x - player2.x) < Math.abs(boss.x - player.x))
-                ? player2
-                : player
-            const dx = targetPlayer.x + targetPlayer.w / 2 - (boss.x + boss.w / 2)
-            const dy = targetPlayer.y + targetPlayer.h / 2 - (boss.y + boss.h / 2)
+        if (currentLevel === 3) {
+            boss.timer++
+            updateWorld3BossAI()
+
+        } else {
+            boss.timer++
 
             if (currentLevel === 2) {
-                const aimAngle = Math.atan2(dy, dx)
-                const enraged = boss.hp <= boss.maxHp / 2
-                const spread = enraged ? 0.62 : 0.48
-                const shotCount = enraged ? 5 : 3
-                const speed = enraged ? 5.4 : 4.6
+                boss.y = boss.baseY + Math.sin(boss.timer * 0.035) * 22
+            }
 
-                for (let shot = 0; shot < shotCount; shot++) {
-                    const offset = shotCount === 1
-                        ? 0
-                        : -spread + (spread * 2 * shot) / (shotCount - 1)
-                    const angle = aimAngle + offset
-                    enemyBullets.push({
-                        x: boss.x + boss.w / 2,
-                        y: boss.y + boss.h / 2,
-                        vx: Math.cos(angle) * speed,
-                        vy: Math.sin(angle) * speed,
-                        color: enraged ? '#fb7185' : '#f97316'
-                    })
-                }
-            } else {
-                const dist = Math.hypot(dx, dy) || 1
-                for (let offset = -0.3; offset <= 0.3; offset += 0.3) {
-                    enemyBullets.push({
-                        x: boss.x + boss.w / 2,
-                        y: boss.y + boss.h / 2,
-                        vx: (dx / dist) * 5 + offset * 2,
-                        vy: (dy / dist) * 5,
-                        color: '#ef4444'
-                    })
+            const attackInterval = currentLevel === 2
+                ? (boss.hp <= boss.maxHp / 2 ? 78 : 108)
+                : 120
+
+            if (boss.timer % attackInterval === 0) {
+
+                const targetPlayer = coOpMode && p2lives > 0 &&
+                    (lives <= 0 || Math.abs(boss.x - player2.x) < Math.abs(boss.x - player.x))
+                    ? player2
+                    : player
+
+                const dx = targetPlayer.x + targetPlayer.w / 2 - (boss.x + boss.w / 2)
+                const dy = targetPlayer.y + targetPlayer.h / 2 - (boss.y + boss.h / 2)
+
+
+                if (currentLevel === 2) {
+                    const aimAngle = Math.atan2(dy, dx)
+                    const enraged = boss.hp <= boss.maxHp / 2
+                    const spread = enraged ? 0.62 : 0.48
+                    const shotCount = enraged ? 5 : 3
+                    const speed = enraged ? 5.4 : 4.6
+
+                    for (let shot = 0;
+                        shot < shotCount;
+                        shot++) {
+
+                        const offset = shotCount === 1
+                            ? 0
+                            : -spread + (spread * 2 * shot) / (shotCount - 1)
+                        const angle = aimAngle + offset
+
+                        enemyBullets.push({
+                            x: boss.x + boss.w / 2,
+                            y: boss.y + boss.h / 2,
+                            vx: Math.cos(angle) * speed,
+                            vy: Math.sin(angle) * speed,
+                            color: enraged ? '#fb7185' : '#f97316'
+
+                        })
+                    }
+
+                } else {
+                    const dist = Math.hypot(dx, dy) || 1
+
+                    for (let offset = -0.3; offset <= 0.3; offset += 0.3) {
+                        enemyBullets.push({
+
+                            x: boss.x + boss.w / 2,
+                            y: boss.y + boss.h / 2,
+                            vx: (dx / dist) * 5 + offset * 2,
+                            vy: (dy / dist) * 5,
+                            color: '#ef4444'
+
+                        })
+                    }
                 }
             }
+
         }
 
 
-        if (lives > 0 && player.x + player.w > boss.x && player.x < boss.x + boss.w &&
-            player.y + player.h > boss.y && player.y < boss.y + boss.h) {
-            hurtPlayer()
-        }
-        if (coOpMode && p2lives > 0 &&
-            player2.x + player2.w > boss.x && player2.x < boss.x + boss.w &&
-            player2.y + player2.h > boss.y && player2.y < boss.y + boss.h) {
-            hurtPlayer2()
-        }
     }
-
 
 
 
@@ -942,18 +1232,35 @@ function update() {
 
 
     if (portal && portal.active && currentLevel === 1) {
+
         const playerAtPortal = player.x + player.w > portal.x && player.x < portal.x + portal.w &&
             player.y + player.h > portal.y && player.y < portal.y + portal.h
+
         const player2AtPortal = coOpMode && p2lives > 0 &&
             player2.x + player2.w > portal.x && player2.x < portal.x + portal.w &&
             player2.y + player2.h > portal.y && player2.y < portal.y + portal.h
 
         if (playerAtPortal || player2AtPortal) {
 
-            currentLevel = 2
-            initLevel()
             playSound('powerup')
-            updateHUD()
+            transitionToLevel(2)
+
+        }
+
+
+    }
+
+
+    if (currentLevel === 3) {
+
+        if (lives > 0 && player.invulnerable === 0 && player.y + player.h >= CANVAS_HEIGHT - 30) {
+            hurtPlayer()
+            addExplosion(player.x, player.y, '#f97316', 20)
+        }
+
+        if (coOpMode && p2lives > 0 && player2.invulnerable === 0 && player2.y + player2.h >= CANVAS_HEIGHT - 30) {
+            hurtPlayer2()
+            addExplosion(player2.x, player2.y, '#f97316', 20)
         }
 
     }
@@ -977,7 +1284,7 @@ function hurtPlayer() {
 
     } else if (lives > 0) {
 
-        player.invulnerable = 1200; 
+        player.invulnerable = 1200;
         player.x = Math.max(100, cameraX + 50)
         player.y = 100
         player.vx = 0
@@ -985,6 +1292,8 @@ function hurtPlayer() {
 
     }
 }
+
+
 
 function hurtPlayer2() {
 
@@ -1013,15 +1322,62 @@ function draw() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
 
-    let skyGrad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
-    skyGrad.addColorStop(0, '#1a1c2e')
-    skyGrad.addColorStop(0.5, '#382b47')
-    skyGrad.addColorStop(1, '#5c3d46')
-    ctx.fillStyle = skyGrad
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+    if (currentLevel === 3) {
+
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
+        skyGrad.addColorStop(0, '#160b18')
+        skyGrad.addColorStop(0.55, '#541b24')
+        skyGrad.addColorStop(1, '#a83218')
+        ctx.fillStyle = skyGrad
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+
+        ctx.fillStyle = '#28101b'
+        ctx.beginPath()
+        ctx.moveTo(0, 300)
+        for (let x = 0;
+            x <= CANVAS_WIDTH + 80;
+            x += 80
+        ) {
+            const ridgeX = x - (cameraX * 80) % 80
+            ctx.lineTo(ridgeX, 250 + Math.sin(x * 0.03) * 24 + Math.sin(x * 0.011) * 18)
+        }
 
 
-    if (currentLevel === 2) {
+        ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT)
+        ctx.lineTo(0, CANVAS_HEIGHT)
+        ctx.fill()
+
+        ctx.fillStyle = '#f97316'
+        ctx.fillRect(0, CANVAS_HEIGHT - 28, CANVAS_WIDTH, 28)
+        ctx.fillStyle = '#facc15'
+        const lavaTime = Date.now() * 0.002
+
+        for (let x = 0;
+            x <= CANVAS_WIDTH;
+            x += 24
+        ) {
+            const waveY = Math.sin(lavaTime + x * 0.06) * 4
+            ctx.fillRect(x, CANVAS_HEIGHT - 28 + waveY, 15, 15)
+        }
+
+        ctx.fillStyle = '#fde68a'
+
+        for (let i = 0;
+            i < 22;
+            i++
+        ) {
+
+            const emberX = (i * 97 - cameraX * 0.35 + Date.now() * (0.008 + (i % 3) * 0.002)) % CANVAS_WIDTH
+            const emberY = 110 + ((i * 61 + Date.now() * (0.018 + (i % 4) * 0.004)) % 270)
+            ctx.globalAlpha = 0.35 + (i % 4) * 0.15
+            ctx.fillRect((emberX + CANVAS_WIDTH) % CANVAS_WIDTH, emberY, 3, 3)
+
+        }
+
+        ctx.globalAlpha = 1
+
+    } else if (currentLevel === 2) {
+
         const caveGrad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
         caveGrad.addColorStop(0, '#090718')
         caveGrad.addColorStop(0.65, '#171126')
@@ -1029,7 +1385,9 @@ function draw() {
         ctx.fillStyle = caveGrad
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
+
         for (let i = 0; i < 8; i++) {
+
             const crystalX = ((i * 137 - cameraX * 0.16) % 1000 + 1000) % 1000
             const crystalY = 150 + (i % 3) * 48
             ctx.fillStyle = i % 2 === 0 ? 'rgba(168, 85, 247, 0.18)' : 'rgba(249, 115, 22, 0.14)'
@@ -1040,11 +1398,22 @@ function draw() {
             ctx.lineTo(crystalX - 10, crystalY + 30)
             ctx.closePath()
             ctx.fill()
+
         }
 
         ctx.fillStyle = 'rgba(124, 58, 237, 0.12)'
         ctx.fillRect(0, 370, CANVAS_WIDTH, 80)
+
+
     } else {
+
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
+        skyGrad.addColorStop(0, '#1a1c2e')
+        skyGrad.addColorStop(0.5, '#382b47')
+        skyGrad.addColorStop(1, '#5c3d46')
+        ctx.fillStyle = skyGrad
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+
         ctx.fillStyle = '#11131f'
         let castleX = (CANVAS_WIDTH * 0.7) - (cameraX * 0.1) % 500
         ctx.fillRect(castleX, 200, 80, 200)
@@ -1060,10 +1429,13 @@ function draw() {
         ctx.beginPath()
         ctx.moveTo(0, CANVAS_HEIGHT)
         for (let i = 0; i <= CANVAS_WIDTH + 100; i += 100) {
+
             const archX = i - (cameraX * 0.2) % 100
             const archY = 300 + Math.sin(i + 1) * 35
             ctx.lineTo(archX, archY)
+
         }
+
         ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT)
         ctx.fill()
 
@@ -1071,39 +1443,45 @@ function draw() {
         ctx.beginPath()
         ctx.moveTo(0, CANVAS_HEIGHT)
         for (let i = 0; i <= CANVAS_WIDTH + 80; i += 80) {
+
             const hillX = i - (cameraX * 0.4) % 80
             const hillY = 370 + Math.sin(i * 0.05) * 20
             ctx.lineTo(hillX, hillY)
+            
         }
+
         ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT)
         ctx.fill()
+
+
     }
 
-    
+
 
     platforms.forEach(p => {
 
         let drawX = p.x - cameraX
         if (drawX + p.w < -50 || drawX > CANVAS_WIDTH + 50) return
 
-        ctx.fillStyle = currentLevel === 2 ? '#292333' : '#2d241e'
+        ctx.fillStyle = currentLevel === 2 ? '#292333' : currentLevel === 3 ? '#321815' : '#2d241e'
         ctx.fillRect(drawX, p.y, p.w, p.h)
-        ctx.strokeStyle = currentLevel === 2 ? '#6d4c8d' : '#43362d'
+        ctx.strokeStyle = currentLevel === 2 ? '#6d4c8d' : currentLevel === 3 ? '#7c2d12' : '#43362d'
         ctx.lineWidth = 2
         ctx.strokeRect(drawX, p.y, p.w, p.h)
 
 
-        ctx.fillStyle = currentLevel === 2 ? '#c084fc' : '#38a169'
+        ctx.fillStyle = currentLevel === 2 ? '#c084fc' : currentLevel === 3 ? '#f97316' : '#38a169'
         ctx.fillRect(drawX - 2, p.y - 2, p.w + 4, 6)
-        ctx.fillStyle = currentLevel === 2 ? '#6b21a8' : '#2f855a'
+        ctx.fillStyle = currentLevel === 2 ? '#6b21a8' : currentLevel === 3 ? '#9a3412' : '#2f855a'
 
         for (let ix = drawX + 4; ix < drawX + p.w - 4; ix += 12) {
             ctx.fillRect(ix, p.y + 4, 4, 5);
         }
 
+
     })
 
-    
+
 
 
     pods.forEach(pod => {
@@ -1113,12 +1491,12 @@ function draw() {
 
         ctx.fillStyle = '#f59e0b'
         ctx.beginPath()
-        ctx.arc(drawX + pod.w/2, podDrawY + pod.h/2, 12, 0, Math.PI*2)
+        ctx.arc(drawX + pod.w / 2, podDrawY + pod.h / 2, 12, 0, Math.PI * 2)
         ctx.fill()
         ctx.fillStyle = '#fef08a'
         ctx.font = 'bold 12px sans-serif'
         ctx.textAlign = 'center'
-        ctx.fillText(pod.type[0], drawX + pod.w/2, podDrawY + pod.h/2 + 4)
+        ctx.fillText(pod.type[0], drawX + pod.w / 2, podDrawY + pod.h / 2 + 4)
 
     })
 
@@ -1182,7 +1560,7 @@ function draw() {
         ctx.restore()
 
     }
-    
+
 
 
     enemies.forEach(e => {
@@ -1195,24 +1573,28 @@ function draw() {
 
 
         if (e.type === 'orc') {
+
             ctx.fillStyle = '#15803d'
             ctx.fillRect(-12, -15, 24, 30)
             ctx.fillStyle = '#ef4444'
             ctx.fillRect(2, -10, 4, 4)
 
         } else if (e.type === 'shadow_orc') {
+
             ctx.fillStyle = '#312e81'
             ctx.fillRect(-12, -15, 24, 30)
             ctx.fillStyle = '#c4b5fd'
             ctx.fillRect(2, -10, 4, 4)
 
         } else if (e.type === 'cavern_joe') {
+
             ctx.fillStyle = '#78350f'
             ctx.fillRect(-12, -12, 24, 24)
             ctx.fillStyle = '#fbbf24'
             ctx.fillRect(2, -6, 4, 4)
 
         } else if (e.type === 'gargoyle') {
+
             ctx.fillStyle = '#64748b'
             ctx.fillRect(-12, -12, 24, 24)
             ctx.fillStyle = '#475569'
@@ -1222,6 +1604,7 @@ function draw() {
             ctx.fill()
 
         } else if (e.type === 'cavern_gargoyle') {
+
             ctx.fillStyle = '#581c87'
             ctx.fillRect(-12, -12, 24, 24)
             ctx.fillStyle = '#7e22ce'
@@ -1231,13 +1614,54 @@ function draw() {
             ctx.fill()
 
         } else if (e.type === 'archer') {
+
             ctx.fillStyle = '#e2e8f0'
             ctx.fillRect(-10, -15, 20, 30)
             ctx.fillStyle = '#0f172a'
             ctx.fillRect(-6, -10, 4, 4)
             ctx.fillRect(2, -10, 4, 4)
 
+        } else if (e.type === 'lava_bob') {
+
+            ctx.shadowColor = '#fb923c'
+            ctx.shadowBlur = 14
+            ctx.fillStyle = '#fb923c'
+            ctx.beginPath()
+            ctx.ellipse(0, 2, 15, 16, 0, 0, Math.PI * 2)
+            ctx.fill()
+            ctx.shadowBlur = 0
+            ctx.fillStyle = '#fb923c'
+            ctx.fillRect(-9, -4, 5, 4)
+            ctx.fillRect(4, -4, 5, 4)
+            ctx.fillStyle = '#fef3c7'
+            ctx.fillRect(-8, -3, 2, 2)
+            ctx.fillRect(5, -3, 2, 2)
+            ctx.fillStyle = '#ea580c'
+            ctx.fillRect(-11, 10, 22, 5)
+
+        } else if (e.type === 'fire_boy') {
+
+            ctx.shadowColor = '#fb923c'
+            ctx.shadowBlur = 14
+            ctx.fillStyle = '#c2410c'
+            ctx.beginPath()
+            ctx.moveTo(0, -19)
+            ctx.lineTo(15, -4)
+            ctx.lineTo(13, 12)
+            ctx.lineTo(0, 18)
+            ctx.lineTo(-13, 12)
+            ctx.lineTo(-15, -4)
+            ctx.closePath()
+            ctx.fill()
+            ctx.shadowBlur = 0
+            ctx.fillStyle = '#fde68a'
+            ctx.fillRect(-8, -5, 5, 5)
+            ctx.fillRect(3, -5, 5, 5)
+            ctx.fillStyle = '#7f1d1d'
+            ctx.fillRect(-5, 7, 10, 3)
+
         }
+
 
 
         ctx.restore()
@@ -1245,11 +1669,13 @@ function draw() {
     })
 
 
-    
+
     if (boss) {
+
         let drawX = boss.x - cameraX
         ctx.save()
         ctx.translate(drawX + boss.w / 2, boss.y + boss.h / 2)
+
 
         if (currentLevel === 2) {
             const enraged = boss.hp <= boss.maxHp / 2
@@ -1288,6 +1714,62 @@ function draw() {
             ctx.strokeStyle = enraged ? '#fb7185' : '#7e22ce'
             ctx.lineWidth = 3
             ctx.strokeRect(-boss.w / 2 + 8, -boss.h / 2 + 18, boss.w - 16, boss.h - 28)
+
+
+
+        } else if (currentLevel == 3) {
+
+            const enraged = boss.hp <= boss.maxHp / 2
+            const glowColor = enraged ? '#fef08a' : '#fb923c'
+            ctx.shadowColor = glowColor
+            ctx.shadowBlur = 24
+            ctx.fillStyle = enraged ? '#7c1d24' : '#431407'
+            ctx.beginPath()
+            ctx.moveTo(-58, -68)
+            ctx.lineTo(-42, -boss.h / 2)
+            ctx.lineTo(42, -boss.h / 2)
+            ctx.lineTo(58, -68)
+            ctx.lineTo(52, 48)
+            ctx.lineTo(0, boss.h / 2)
+            ctx.lineTo(-52, 48)
+            ctx.closePath()
+            ctx.fill()
+            ctx.shadowBlur = 0
+
+            ctx.fillStyle = '#7c2d12'
+            ctx.beginPath()
+            ctx.moveTo(-49, -57)
+            ctx.lineTo(-79, -boss.h / 2 - 20)
+            ctx.lineTo(-21, -42)
+            ctx.moveTo(49, -42)
+            ctx.lineTo(79, -boss.h / 2 - 20)
+            ctx.lineTo(21, -42)
+            ctx.closePath()
+            ctx.fill()
+            ctx.strokeStyle = glowColor
+            ctx.lineWidth = 5
+            ctx.beginPath()
+            ctx.moveTo(-48, -48)
+            ctx.lineTo(-30, -18)
+            ctx.lineTo(-46, 15)
+            ctx.moveTo(48, -48)
+            ctx.lineTo(30, -18)
+            ctx.lineTo(46, 15)
+            ctx.stroke()
+
+            ctx.fillStyle = enraged ? '#fff7ae' : '#facc15'
+            ctx.fillRect(-31, -28, 17, 10)
+            ctx.fillRect(14, -28, 17, 10)
+            ctx.fillStyle = '#1c0a0a'
+            ctx.fillRect(-26, -26, 7, 6)
+            ctx.fillRect(19, -26, 7, 6)
+            ctx.fillStyle = '#f97316'
+            ctx.fillRect(-12, 2, 24, 9)
+            ctx.strokeStyle = enraged ? '#fde047' : '#c2410c'
+            ctx.lineWidth = 4
+            ctx.strokeRect(-boss.w / 2 + 8, -boss.h / 2 + 12, boss.w - 16, boss.h - 24)
+
+
         } else {
             ctx.fillStyle = '#450a0a'
             ctx.fillRect(-boss.w / 2, -boss.h / 2, boss.w, boss.h)
@@ -1301,8 +1783,11 @@ function draw() {
             ctx.fillRect(10, -20, 10, 10)
         }
 
+
         ctx.restore()
     }
+
+
 
 
 
@@ -1327,7 +1812,7 @@ function draw() {
 
     })
 
-    
+
 
     particles.forEach(pt => {
 
@@ -1339,23 +1824,32 @@ function draw() {
 
     if (portal && portal.active && currentLevel === 1) {
 
-        let drawPortalX = portal.x - cameraX
-        ctx.fillStyle = '#8b5cf6'
+        const drawPortalX = portal.x - cameraX
+        let pulse = Math.sin(Date.now() * 0.01) * 4
+
+        ctx.fillStyle = 'rgba(139, 92, 246, 0.4)'
+        ctx.fillRect(drawPortalX - pulse, portal.y - pulse, portal.w + pulse * 2, portal.h + pulse * 2)
+
+        ctx.fillStyle = '#6d28d9'
         ctx.fillRect(drawPortalX, portal.y, portal.w, portal.h)
+
         ctx.fillStyle = '#c4b5fd'
-        ctx.fillRect(drawPortalX + 8, portal.y + 8, portal.w - 16, portal.h - 16)
+        const coreHeight = portal.h - 16 + Math.sin(Date.now() * 0.015) * 6
+        ctx.fillRect(drawPortalX + 8, portal.y + 8, portal.w - 16, coreHeight)
 
     }
-
 
 }
 
 
 function gameLoop() {
+
     update()
     draw()
     requestAnimationFrame(gameLoop)
+
 }
+
 
 document.getElementById('startBtn').addEventListener('click', startGame)
 document.getElementById('restartBtn').addEventListener('click', restartGame)
@@ -1384,13 +1878,14 @@ function selectGameMode(useCoOp) {
     startBtn.textContent = coOpMode ? 'Start Co-op Game' : 'Start Solo Game'
     controlHint.textContent = coOpMode
         ? 'P1: A/D move, W/Space jump, J fire · P2: Arrows move, Up jump, K fire'
-        : 'Move: A/D or Left/Right · Jump: W/Up/Space · Fire: J/X/L'
+        : 'Move: A/D or Left/Right · Jump: W/Up/Space · Fire: J/X'
 
 }
 
 soloModeBtn.addEventListener('click', () => selectGameMode(false))
 coopModeBtn.addEventListener('click', () => selectGameMode(true))
 selectGameMode(false)
+
 
 
 const crtToggleBtn = document.getElementById('crtToggleBtn')
@@ -1402,15 +1897,19 @@ crtToggleBtn.addEventListener('click', () => {
 })
 
 
+
 const soundToggleBtn = document.getElementById('soundToggleBtn')
 const soundIcon = document.getElementById('soundIcon')
 soundToggleBtn.addEventListener('click', () => {
+
     soundEnabled = !soundEnabled
     soundIcon.classList.toggle('fa-volume-up', soundEnabled)
     soundIcon.classList.toggle('fa-volume-mute', !soundEnabled)
     soundToggleBtn.setAttribute('aria-label', soundEnabled ? 'Mute sound' : 'Enable sound')
     soundToggleBtn.setAttribute('aria-pressed', String(!soundEnabled))
+
 })
+
 
 
 requestAnimationFrame(gameLoop)
